@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: APPNAME
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: APPNAME
+    spec:
+      containers:
+      - name: APPNAME
+        image: gurvin/demo-app
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100M
+          limits:
+            cpu: 200m
+            memory: 200M
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 80
