@@ -16,7 +16,13 @@ kind: Ingress
 metadata:
   name: APPNAME
   namespace: tutorial
+  annotations:
+    kubernetes.io/tls-acme: "true"
 spec:
+  tls:
+  - hosts:
+    - APPNAME.tutorial.ioudaas.no
+    secretName: APPNAME-tls
   rules:
   - host: APPNAME.tutorial.ioudaas.no
     http:

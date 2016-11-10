@@ -1,7 +1,7 @@
 # k8s-tutorial
 Repo to hold contents for kubernetes hands on tutorial.
 
-## Step 1
+## Kubernetes client
 Get the `kubectl` client to deploy application on kubernetes cluster.
 
 For MAC OSX (amd64)
@@ -40,7 +40,7 @@ APPNAME=ola-app ./name-fix.sh
 ```
 Once done, lets deploy our app
 ```
-kubectl apply -f dp1.yaml
+kubectl apply -f dep.yaml
 ```
 Now you should be able to see the pod with your app name is being scheduled and running
 ```
@@ -63,8 +63,49 @@ kubectl apply -f ingress.yaml
 Now you should be able to access the app by going to url `http://<appname>.tutorial.ioudaas.no`
 
 ## Fault recovery and resilient
-Kubernetes
+Kubernetes supports fault tolerance for the applications running in the cluster. To test this, lets kill our app
+```
+kubectl -n tutorial delete pod -l app=<appname> -now
+```
+
+Now if you try to access the web url, it will not take us to our app. But if you try to list pod again, you should see that kubernetes has detected the missing pod and started a new one
+```
+kubectl -n tutorial get pods -l app=<appname>
+```
+
+As we are using deployment, we can easily scale up and down the numbers of application instances. Lets scale our app to 2 by editing the replica counts in `dep.yaml` file
+```
+...
+spec:
+  replicas: 2
+...
+```
+and apply the changes using
+```
+kubectl apply -f dep.yaml
+```
+now if you list the pod again, you should see that there are 2 pods for your app now.
+```
+kubectl -n tutorial get pods -l app=<appname>
+```
+when you access your application in browser now, you should see the hostname is changing as the request is being routed to different instances. Now if you kill one of the instance, you still should be able to access your application and will not face any downtime.
+
+```
+kubectl -n tutorial delete pod <podname> -now
+```
 
 ## SSL certificate for app
+With support of Lets Encrypt, we can get SSL certificate (from staging LE, to avoid rate limit) automatic for our application. To do that apply the updated ingress file as
+```
+kubectl -n tutorial apply -f ingress-ssl.yaml
+```
+
+It might take a minute or so before we get our SSL certificate. Once successful, when you access your webpage you should see automatic redirection to `https`
 
 ## Dataporten integeration for app
+Now we have app running with SSL in a fault tolerance way, so we are getting ready for production. We would like to get authentication support from `Dataporten`. For that, first we need to register the application in (Dataporten dashboard)[https://dashboard.dataporten.no] Once done, we need to copy the `Oauth2` details from the dashboard into `dep-dp.yaml` file. Copy `CLIENT_ID, CLIENT_SECRET` under `DATAPORTEN_CLIENTID, DATAPORTEN_CLIENTSECRET` correspondingly. Once done apply the updated deployment as
+```
+kubectl apply -f dep-dp.yaml
+```
+
+Kubernetes will automatically restart your app and once done, you will see the `login` button which allows you to use Dataporten

@@ -2,8 +2,9 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: APPNAME
+  namespace: tutorial
 spec:
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -27,3 +28,12 @@ spec:
           timeoutSeconds: 1
         ports:
         - containerPort: 80
+        env:
+          - name: DATAPORTEN_CLIENTID
+            value: value
+          - name: DATAPORTEN_CLIENTSECRET
+            value: value
+          - name: DATAPORTEN_REDIRECTURI
+            value: https://APPNAME.tutorial.ioudaas.no/cb.php
+          - name: DATAPORTEN_SCOPES
+            value: userid,profile,groups,email
