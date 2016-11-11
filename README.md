@@ -22,14 +22,14 @@ wget https://storage.googleapis.com/kubernetes-release/release/v1.4.5/kubernetes
 Untar this make sure you are able to run `kubectl`
 
 ## Kubernetes server configuration
-We need to authenticate ourselves to get the credentials and also download the kubeconfig with details to connect to our kubernetes server. Go to this webpage in your browser `https://login.ioudaas.no`
+We need to authenticate ourselves to get the credentials and also download the kubeconfig with details to connect to our kubernetes server. Make sure you are member of `uhsky-tutorial` group in dataporten. You can check that here `https://grupper.dataporten.no` . After that go to this webpage in your browser `https://login.ioudaas.no` to get the kuberentes configuration.
 
 Download the config file and place it under your home directory as `~/.kube/config`. After this you should be able to run the command and get output as
 ```
 $ kubectl version
-Client Version: version.Info{Major:"1", Minor:"4", GitVersion:"v1.4.3", GitCommit:"4957b090e9a4f6a68b4a40375408fdc74a212260", GitTreeState:"clean", BuildDate:"2016-10-16T06:36:33Z", GoVersion:"go1.7.1", Compiler:"gc", Platform:"darwin/amd64"}
+Client Version: version.Info{Major:"1", Minor:"4", GitVersion:"v1.4.5", GitCommit:"4957b090e9a4f6a68b4a40375408fdc74a212260", GitTreeState:"clean", BuildDate:"2016-10-16T06:36:33Z", GoVersion:"go1.7.1", Compiler:"gc", Platform:"darwin/amd64"}
 
-Server Version: version.Info{Major:"1", Minor:"4", GitVersion:"v1.4.3+coreos.0", GitCommit:"7819c84f25e8c661321ee80d6b9fa5f4ff06676f", GitTreeState:"clean", BuildDate:"2016-10-17T21:19:17Z", GoVersion:"go1.6.3", Compiler:"gc", Platform:"linux/amd64"}
+Server Version: version.Info{Major:"1", Minor:"4", GitVersion:"v1.4.5+coreos.0", GitCommit:"7819c84f25e8c661321ee80d6b9fa5f4ff06676f", GitTreeState:"clean", BuildDate:"2016-10-17T21:19:17Z", GoVersion:"go1.6.3", Compiler:"gc", Platform:"linux/amd64"}
 ```
 
 ## Deploy a demo app to kubernetes
