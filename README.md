@@ -44,15 +44,15 @@ kubectl apply -f dep.yaml
 ```
 Now you should be able to see the pod with your app name is being scheduled and running
 ```
-kubectl -n tutorial get pods
+kubectl -n tutorial get pods -l app=<APPNAME>
 ```
 To see the more details about pod, run the command
 ```
-kubectl -n tutorial describe pod -l app=<appname>
+kubectl -n tutorial describe pod -l app=<APPNAME>
 ```
 Lets access it using port-forward, as currently we have not yet exposed it to internet
 ```
-kubectl port-forward 8080:80 <pod_name>
+kubectl -n tutorial port-forward <POD_NAME> 8080:80
 ```
 ## Expose the app to internet
 As our application is running, we can expose it out to public internet with a DNS name created for us already for our app. 
@@ -60,18 +60,19 @@ As our application is running, we can expose it out to public internet with a DN
 kubectl apply -f ingress.yaml
 ```
 
-Now you should be able to access the app by going to url `http://<appname>.tutorial.ioudaas.no`
+Now you should be able to access the app by going to url `http://<APPNAME>.tutorial.ioudaas.no`
 
 ## Fault recovery and resilient
 Kubernetes supports fault tolerance for the applications running in the cluster. To test this, lets kill our app
 ```
-kubectl -n tutorial delete pod -l app=<appname> -now
+kubectl -n tutorial delete pod -l app=<APPNAME> --now
 ```
 
 Now if you try to access the web url, it will not take us to our app. But if you try to list pod again, you should see that kubernetes has detected the missing pod and started a new one
 ```
-kubectl -n tutorial get pods -l app=<appname>
+kubectl -n tutorial get pods -l app=<APPNAME>
 ```
+After some time the pod with start running and you should be able to access your app again by accessing url `http://<APPNAME>.tutorial.ioudaas.no`.
 
 As we are using deployment, we can easily scale up and down the numbers of application instances. Lets scale our app to 2 by editing the replica counts in `dep.yaml` file
 ```
@@ -86,12 +87,12 @@ kubectl apply -f dep.yaml
 ```
 now if you list the pod again, you should see that there are 2 pods for your app now.
 ```
-kubectl -n tutorial get pods -l app=<appname>
+kubectl -n tutorial get pods -l app=<APPNAME>
 ```
-when you access your application in browser now, you should see the hostname is changing as the request is being routed to different instances. Now if you kill one of the instance, you still should be able to access your application and will not face any downtime.
+Once pod started running then you should see the hostname is changing as the request is being routed to different application instances. Now if you kill one of the instance, you still should be able to access your application and will not face any downtime.
 
 ```
-kubectl -n tutorial delete pod <podname> -now
+kubectl -n tutorial delete pod <podname> --now
 ```
 
 ## SSL certificate for app
@@ -103,7 +104,9 @@ kubectl -n tutorial apply -f ingress-ssl.yaml
 It might take a minute or so before we get our SSL certificate. Once successful, when you access your webpage you should see automatic redirection to `https`
 
 ## Dataporten integeration for app
-Now we have app running with SSL in a fault tolerance way, so we are getting ready for production. We would like to get authentication support from `Dataporten`. For that, first we need to register the application in (Dataporten dashboard)[https://dashboard.dataporten.no] Once done, we need to copy the `Oauth2` details from the dashboard into `dep-dp.yaml` file. Copy `CLIENT_ID, CLIENT_SECRET` under `DATAPORTEN_CLIENTID, DATAPORTEN_CLIENTSECRET` correspondingly. Once done apply the updated deployment as
+Now we have app running with SSL in a fault tolerance way, so we are getting ready for production. We would like to get authentication support from `Dataporten`. For that, first we need to register the application in (Dataporten dashboard)[https://dashboard.dataporten.no].
+
+Set the Redirect URL as `https://<APPNAME>.tutorial.ioudaas.no/cb.php` Once app is registered, we need add extra scopes `E-Post, Groups, Feide-navn`. After that we need to copy the `Oauth2` details from the dashboard's `Oauth2 details` section into `dep-dp.yaml` file. Copy `CLIENT_ID, CLIENT_SECRET` under `DATAPORTEN_CLIENTID, DATAPORTEN_CLIENTSECRET` correspondingly. Once done copying, apply the updated deployment as
 ```
 kubectl apply -f dep-dp.yaml
 ```
