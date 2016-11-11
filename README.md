@@ -1,6 +1,14 @@
 # k8s-tutorial
 Repo to hold contents for kubernetes hands on tutorial.
 
+##Tl;dr
+* Setup kubernetes client with Dataporten authentication
+* Deploy a demo app
+* Make application availanle to public interenet with DNS name
+* Make application fault tolerant
+* Get SSL cert from Lets Encrypt
+* Enable Dataporten integeration for the application
+
 ## Kubernetes client
 Get the `kubectl` client to deploy application on kubernetes cluster.
 
