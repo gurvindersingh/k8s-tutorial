@@ -19,7 +19,7 @@ For Windows (amd64)
 wget https://storage.googleapis.com/kubernetes-release/release/v1.4.5/kubernetes-client-windows-amd64.tar.gz
 ```
 
-Untar this make sure you are able to run `kubectl`
+Untar this and make sure you are able to run `kubectl`
 
 ## Kubernetes server configuration
 We need to authenticate ourselves to get the credentials and also download the kubeconfig with details to connect to our kubernetes server. Make sure you are member of `uhsky-tutorial` group in dataporten. You can check that here `https://grupper.dataporten.no` . After that go to this webpage in your browser `https://login.ioudaas.no` to get the kuberentes configuration.
