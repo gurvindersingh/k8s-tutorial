@@ -68,7 +68,7 @@ As our application is running, we can expose it out to public internet with a DN
 kubectl apply -f ingress.yaml
 ```
 
-Now you should be able to access the app by going to url `http://<APPNAME>.tutorial.ioudaas.no`
+Now you should be able to access the app by going to url `http://<APPNAME>.tutorial.ioudaas.no`. The webpage from app can take a minute or so, due to ingress controller updating its configuration.
 
 ## Fault recovery and resilient
 Kubernetes supports fault tolerance for the applications running in the cluster. To test this, lets kill our app
