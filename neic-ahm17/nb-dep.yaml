@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: APPNAME
+  namespace: tutorial
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: APPNAME
+    spec:
+      containers:
+      - name: APPNAME
+        image: gurvin/minimal-notebook
+        resources:
+          requests:
+            cpu: 200m
+            memory: 200M
+          limits:
+            cpu: 400m
+            memory: 400M
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8888
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8888
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 8888

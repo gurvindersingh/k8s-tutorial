@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: APPNAME
+  namespace: tutorial
+spec:
+  ports:
+  - port: 8888
+    name: http
+  selector:
+    app: APPNAME
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: APPNAME
+  namespace: tutorial
+spec:
+  rules:
+  - host: APPNAME.tutorial.ioudaas.no
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: APPNAME
+          servicePort: 8888
