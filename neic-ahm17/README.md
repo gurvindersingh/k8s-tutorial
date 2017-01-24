@@ -69,11 +69,11 @@ kubectl apply -f nb-dep.yaml
 ```
 Now you should be able to see the pod with your app name is being scheduled and running
 ```
-kubectl -n tutorial get pods -l app=<APPNAME>
+kubectl -n tutorial get pods -l app=APPNAME
 ```
 To see the more details about pod, run the command
 ```
-kubectl -n tutorial describe pod -l app=<APPNAME>
+kubectl -n tutorial describe pod -l app=APPNAME
 ```
 ### Access our notebook from local kubernetes
 
@@ -107,11 +107,11 @@ kubectl apply -f nb-dep.yaml
 ```
 Now you should be able to see the pod with your app name is being scheduled and running
 ```
-kubectl -n tutorial get pods -o wide -l app=<APPNAME>
+kubectl -n tutorial get pods -o wide -l app=APPNAME
 ```
 To see the more details about pod, run the command
 ```
-kubectl -n tutorial describe pod -l app=<APPNAME>
+kubectl -n tutorial describe pod -l app=APPNAME
 ```
 
 ### Expose the app to internet
@@ -119,7 +119,7 @@ As our application is running, we can expose it out to public internet with a DN
 ```
 kubectl apply -f nb-ing.yaml
 ```
-Now you should be able to access the app by going to url `http://<APPNAME>.tutorial.ioudaas.no`. The webpage from app can take a minute or so, due to ingress controller updating its configuration.
+Now you should be able to access the app by going to url `http://APPNAME.tutorial.ioudaas.no`. The webpage from app can take a minute or so, due to ingress controller updating its configuration.
 
 ### SSL certificate for app
 With support from Let's Encrypt, we can get SSL certificate (using staging LE, to avoid rate limit) automatically for our application. To do that apply the updated ingress file as
@@ -132,15 +132,15 @@ It might take a minute or so before we get our SSL certificate. Once successful,
 
 Kubernetes keeps track of the running application using liveness check and deployment replica count. If for some reason application is down, it will automatically start a new instance of our app. To simulate the failure, delete the running pod
 ```
-kubectl -n tutorial delete pod -l app=<APPNAME>
+kubectl -n tutorial delete pod -l app=APPNAME
 ```
 Now if you try to access, your notebook instance it will be down. Let´s look at the deployment object and see what it shows as number of replicas.
 
 ```
-kubectl -n tutorial get deployment -l app=<APPNAME>
+kubectl -n tutorial get deployment -l app=APPNAME
 ```
 You will see that Kubernetes has detected the number of `Available` pods are not what is `Desired`. So lets do a watch on the pod status, you will see that kubernetes has scheduled a new instance automatically.
 ```
-kubectl -n tutorial get pod -w -l app=<APPNAME>
+kubectl -n tutorial get pod -w -l app=APPNAME
 ```
 Once pod status changed to running with in a minute you will be able to access the notebook app again.
