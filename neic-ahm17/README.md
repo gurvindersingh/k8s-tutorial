@@ -59,7 +59,11 @@ Since we have working kubernetes client, lets deploy our notebook app to kuberne
 ```
 APPNAME=ola ./name-fix.sh
 ```
-Once done, let's deploy our app
+Once done, lets see if we are connected to our local kubernetes cluster
+```
+kubectl get nodes
+```
+Now, let's deploy our app
 ```
 kubectl apply -f nb-dep.yaml
 ```
@@ -130,7 +134,12 @@ Kubernetes keeps track of the running application using liveness check and deplo
 ```
 kubectl -n tutorial delete pod -l app=<APPNAME>
 ```
-Now if you try to access, your notebook instance it will be down.  If you do a watch on pod status, you will see that kubernetes has detected the failure and scheduled a new instance automatically.
+Now if you try to access, your notebook instance it will be down. Let´s look at the deployment object and see what it shows as number of replicas.
+
+```
+kubectl -n tutorial get deployment -l app=<APPNAME>
+```
+You will see that Kubernetes has detected the number of `Available` pods are not what is `Desired`. So lets do a watch on the pod status, you will see that kubernetes has scheduled a new instance automatically.
 ```
 kubectl -n tutorial get pod -w -l app=<APPNAME>
 ```
