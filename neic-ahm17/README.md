@@ -63,6 +63,10 @@ Once done, lets see if we are connected to our local kubernetes cluster
 ```
 kubectl get nodes
 ```
+We need to create our `tutorial namespace.
+```
+kubectl create namespace tutorial
+```
 Now, let's deploy our app
 ```
 kubectl apply -f nb-dep.yaml
