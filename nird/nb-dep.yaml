@@ -24,13 +24,14 @@ spec:
           httpGet:
             path: /
             port: 8888
-          initialDelaySeconds: 5
+          initialDelaySeconds: 10
+          periodSeconds: 5
           timeoutSeconds: 1
         livenessProbe:
           httpGet:
             path: /
             port: 8888
-          initialDelaySeconds: 5
+          initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 1
         ports:
@@ -41,7 +42,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: APPNAME
-  namespace: tutorial
+  namespace: scratch
 spec:
   ports:
   - port: 8888
@@ -54,7 +55,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: APPNAME
-  namespace: tutorial
+  namespace: scratch
   annotations:
     kubernetes.io/tls-acme: "true"
 spec:
@@ -63,10 +64,30 @@ spec:
     - APPNAME.scratch.nirdtest.uninett.no
     secretName: APPNAME-tls
   rules:
-  - host: APPNAME.tutorial.ioudaas.no
+  - host: APPNAME.scratch.nirdtest.uninett.no
     http:
       paths:
       - path: /
         backend:
           serviceName: APPNAME
           servicePort: 8888
+
+---
+
+apiVersion: extensions/v1beta1
+kind: NetworkPolicy
+metadata:
+  name: APPNAME
+  namespace: scratch
+spec:
+  podSelector:
+    matchLabels:
+      app: APPNAME
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: kube-ingress
+      ports:
+        - protocol: tcp
+          port: 8888
