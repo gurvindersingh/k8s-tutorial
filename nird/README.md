@@ -36,14 +36,14 @@ Kubed is use to manage the authentication with Dataporten and configuration of K
 
 For MAC OSX (amd64)
 ```
-wget -qO - https://github.com/UNINETT/kubed/releases/download/0.1.3/kubed-darwin-amd64| sudo mv kubed-darwin-amd64 /usr/local/bin/kubed && sudo chmod +x /usr/local/bin/kubed
+wget -qO - https://github.com/UNINETT/kubed/releases/download/0.1.4/kubed-darwin-amd64| sudo mv kubed-darwin-amd64 /usr/local/bin/kubed && sudo chmod +x /usr/local/bin/kubed
 ```
 For Linux (amd64)
 ```
-wget -qO - https://github.com/UNINETT/kubed/releases/download/0.1.3/kubed-linux-amd64| sudo mv kubed-linux-amd64 /usr/local/bin/kubed && sudo chmod +x /usr/local/bin/kubed
+wget -qO - https://github.com/UNINETT/kubed/releases/download/0.1.4/kubed-linux-amd64| sudo mv kubed-linux-amd64 /usr/local/bin/kubed && sudo chmod +x /usr/local/bin/kubed
 ```
 For Windows (amd64)
-Download [Kubed (0.1.3)](https://github.com/UNINETT/kubed/releases/download/0.1.3/kubed-windows-amd64.exe) and open `cmd`. On the command prompt run
+Download [Kubed (0.1.4)](https://github.com/UNINETT/kubed/releases/download/0.1.4/kubed-windows-amd64.exe) and open `cmd`. On the command prompt run
 
 ```
 copy %HOMEPATH%\Downloads\kubed-windows-amd64.exe C:\Windows\System32\kubed.exe
